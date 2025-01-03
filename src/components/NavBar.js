@@ -24,7 +24,10 @@ export default function NavBar() {
               ➕ CREATE A FACT
             </Link>
             <Link className="nav-link" href={`/response-yes/${user.uid}?value=Yes`}>
-              {/* 
+              ✅ YES
+            </Link>
+
+            {/*               
                   </Link>
             <Link className="nav-link" href={`/response-yes/${user.uid}?value=Yes`}>
 
@@ -40,8 +43,7 @@ export default function NavBar() {
 
             it is MY specific unique identifier that is being passed in the URL. it is not a general unique identifier. it is the unique identifier of the user that is currently logged in.
             */}
-              ✅ YES
-            </Link>
+
             <Link className="nav-link" href={`/response-no/${user.uid}?value=No`}>
               ❌ NO
             </Link>

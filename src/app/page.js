@@ -5,6 +5,8 @@
 import { useAuth } from '@/utils/context/authContext';
 import { useEffect, useState } from 'react';
 
+const dbURL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL;
+
 function Home() {
   const [uselessFact, setUselessFact] = useState({});
   const { user } = useAuth();
@@ -19,12 +21,25 @@ function Home() {
   };
 
   // this fx will run when the user clicks a button. it creates an object with the user id, the fact permalink, and the response (true or false). then it fetches a new fact. then for now we return obj
-  const selectResponse = (boolean) => {
+  const selectResponse = async (boolean) => {
+    // when this fx is called below when the use clicks yes or no buttons, it passes in true or false respectively. then it creates a const val that is 'Yes' if true and 'No' if false.
+    const val = boolean ? 'Yes' : 'No';
+    // then it creates an object with the user id and the fact text.
+    console.log(user.uid);
     const obj = {
-      userId: user.id,
-      permalink: uselessFact.permalink,
-      response: boolean,
+      text: uselessFact.text,
+      userID: user.uid,
     };
+    // then it fetches the response json file with the value of val. (i.e. responseYes.json or responseNo.json- this format is the same as the format of the json files in the firebase database.)
+    // this is a POST request to the database. it is sending the obj to the database as a new entry when yes or no (on the page with a fact, not in the navbar) is clicked.
+    // normally better practice would be to do this api call in a separate fx and then call that fx here.
+    await fetch(`${dbURL}/response${val}.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj),
+    });
     fetchFact();
     return obj;
   };
