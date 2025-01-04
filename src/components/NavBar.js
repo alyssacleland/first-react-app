@@ -23,7 +23,7 @@ export default function NavBar() {
             <Link className="nav-link" href="/form">
               ➕ CREATE A FACT
             </Link>
-            <Link className="nav-link" href={`/response-yes/${user.uid}?value=Yes`}>
+            <Link className="nav-link" href={`/response/${user.uid}?value=Yes`}>
               ✅ YES
             </Link>
 
@@ -42,9 +42,11 @@ export default function NavBar() {
             note. also, this works because in the page.js file in the dynamic route [response-yes], we are using the params object to access the userID parameter from the URL. so all this href part does is display the user's unique ID in the browser when that link is clicked, and the page.js file in the dynamic route [response-yes] is what actually displays the user's unique ID on the page. honestly, right now we are just showing that the user id is accessible. we will probably change the page.js file later to do something more interesting.
 
             it is MY specific unique identifier that is being passed in the URL. it is not a general unique identifier. it is the unique identifier of the user that is currently logged in.
+
+            note: we ended up changing response-yes to response because we are using the same page for both yes and no responses. so the user id is passed in the URL and the value is passed as a query parameter. same for response-no. and NOW we DO need the value=xxx. 
             */}
 
-            <Link className="nav-link" href={`/response-no/${user.uid}?value=No`}>
+            <Link className="nav-link" href={`/response/${user.uid}?value=No`}>
               ❌ NO
             </Link>
           </Nav>

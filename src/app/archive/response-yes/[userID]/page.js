@@ -1,5 +1,5 @@
 import React from 'react';
-import FactCard from '../../../components/card';
+import FactCard from '../../../../components/card';
 
 // This is the React functional component for the dynamic route
 export default async function responseYesPage({ params }) {
@@ -20,7 +20,7 @@ export default async function responseYesPage({ params }) {
       {/* Now, we are doing: Display the data from the responseYes.json file. */}
 
       {Object.values(facts).map((fact) => (
-        <FactCard fact={fact.text} />
+        <FactCard key={fact.firebaseKey} fact={fact.text} />
       ))}
       {/* // this renders the text of each fact in the facts object. */}
     </div>
