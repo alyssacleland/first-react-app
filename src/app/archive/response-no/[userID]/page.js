@@ -1,5 +1,5 @@
 import React from 'react';
-import FactCard from '../../../components/card';
+import FactCard from '../../../../components/card';
 
 // params: An object provided by Next.js containing the dynamic segments of the URL. the entire URL is the object.
 // Dot Notation: Used to access parts of the params object, including userID.
@@ -22,7 +22,7 @@ export default async function responseNoPage({ params }) {
   return (
     <div>
       {Object.values(facts).map((fact) => (
-        <FactCard fact={fact.text} />
+        <FactCard key={fact.firebaseKey} fact={fact.text} />
       ))}
     </div>
   );

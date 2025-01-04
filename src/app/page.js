@@ -4,8 +4,9 @@
 
 import { useAuth } from '@/utils/context/authContext';
 import { useEffect, useState } from 'react';
+import { postFact, updateFact } from '../api/facts';
 
-const dbURL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL;
+// const dbURL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL;
 
 function Home() {
   const [uselessFact, setUselessFact] = useState({});
@@ -33,13 +34,24 @@ function Home() {
     // then it fetches the response json file with the value of val. (i.e. responseYes.json or responseNo.json- this format is the same as the format of the json files in the firebase database.)
     // this is a POST request to the database. it is sending the obj to the database as a new entry when yes or no (on the page with a fact, not in the navbar) is clicked.
     // normally better practice would be to do this api call in a separate fx and then call that fx here.
-    await fetch(`${dbURL}/response${val}.json`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(obj),
-    });
+    //   await fetch(`${dbURL}/response${val}.json`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(obj),
+    //   });
+    //   fetchFact();
+    //   return obj;
+    // };
+    // jk instead we're gonna call it from the api file...
+
+    // the api call returns a response, and that response is going to contain the firebase key.
+    // we want to duplicate the key into the object
+    const response = await postFact(obj, val); // this posts the fact to the database and then it is seen in the responseYes or responseNo pages (in navbar). we also use it below in update to access the firebase key.
+    await updateFact(response.name, val); // respose.name is the firebase key which updateFact accepts as an argument.
+    // this patches the firebase key into the object in the database. see the api file for more info.
+
     fetchFact();
     return obj;
   };
