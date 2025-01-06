@@ -49,7 +49,8 @@ function Home() {
     // the api call returns a response, and that response is going to contain the firebase key.
     // we want to duplicate the key into the object
     const response = await postFact(obj, val); // this posts the fact to the database and then it is seen in the responseYes or responseNo pages (in navbar). we also use it below in update to access the firebase key.
-    await updateFact(response.name, val); // respose.name is the firebase key which updateFact accepts as an argument.
+    await updateFact({ firebaseKey: response.name }, val); // respose.name is the firebase key which updateFact accepts as an argument.
+    // we changed it to firebaseKey: response.name because we changed the format of the api call in facts.js to accept paylaod as an argument. payload is an object that contains the firebase key and the value.
     // this patches the firebase key into the object in the database. see the api file for more info.
 
     fetchFact();
