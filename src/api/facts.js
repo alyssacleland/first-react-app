@@ -12,15 +12,16 @@ const postFact = async (obj, val) => {
   return response;
 };
 
-const updateFact = async (firebaseKey, val) => {
-  const patch = await fetch(`${dbUrl}/response${val}/${firebaseKey}.json`, {
+const updateFact = async (payload, val) => {
+  const patch = await fetch(`${dbUrl}/response${val}/${payload.firebaseKey}.json`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      firebaseKey, // this adds the firebase key to the object in the database. it is shorthand for firebaseKey: firebaseKey.  In JavaScript, you can use shorthand notation to create key-value pairs where the key is the same as the variable name.
-    }),
+    // body: JSON.stringify({
+    //   firebaseKey, // this adds the firebase key to the object in the database. it is shorthand for firebaseKey: firebaseKey.  In JavaScript, you can use shorthand notation to create key-value pairs where the key is the same as the variable name.
+    // }),
+    body: JSON.stringify(payload),
   });
   const response = patch.json();
   return response;
