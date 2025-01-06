@@ -11,7 +11,7 @@ const initialState = {
   name: '',
 };
 
-export default function Form({ obj = initialState }) {
+export default function Form({ obj = initialState, func }) {
   const { user } = useAuth();
   const [factDetails, setFactDetails] = useState(obj);
 
@@ -48,6 +48,7 @@ export default function Form({ obj = initialState }) {
 
       // UPDATE FACT:
       await updateFact(factDetails, 'Yes'); // TODO: can always update the form with a select yes or no to have users select. for now it's just going to send it to yes.
+      func(factDetails); // this is the setLocalFact function in the fact card component. it is used to update the state in the fact card component.
     } else {
       // if object does not have a firebase key, it means it is a new fact that we are creating
 
@@ -93,4 +94,5 @@ Form.propTypes = {
     text: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
+  func: PropTypes.func.isRequired,
 };
