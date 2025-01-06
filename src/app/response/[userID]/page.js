@@ -1,24 +1,35 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import FactCard from '../../../components/card';
 import { readFacts } from '../../../api/facts';
 
-export default async function responsePage({ params, searchParams }) {
-  const facts = await readFacts(params.userID, searchParams.value);
-  console.log(facts);
-  console.log(Object.values(facts));
+export default function ResponsePage({ params, searchParams }) {
+  const [facts, setFacts] = useState([]);
+  const getFacts = () => {
+    readFacts(params.userID, searchParams.value).then(setFacts);
+  };
+  useEffect(() => {
+    getFacts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const facts = await readFacts(params.userID, searchParams.value); jk we don't need this bc now we're using useEffect
+  // console.log(facts);
+  // console.log(Object.values(facts));
 
   return (
     <div>
       {/* {searchParams.value} */}
       {Object.values(facts).map((fact) => (
-        <FactCard key={fact.firebaseKey} fact={fact.text} />
+        <FactCard key={fact.firebaseKey} fact={fact} deleteFunc={getFacts} />
       ))}
     </div>
   );
 }
 
-responsePage.propTypes = {
+ResponsePage.propTypes = {
   params: PropTypes.string.isRequired,
   searchParams: PropTypes.string.isRequired,
 };
